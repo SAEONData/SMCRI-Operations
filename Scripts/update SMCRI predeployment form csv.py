@@ -1,6 +1,9 @@
 # this script reads in the data from the survey123 mooring surveys and then updates the associated .csv files and feature layers 
 from arcgis.gis import GIS
+from arcgis.features import FeatureLayerCollection
 import pandas as pd
+from datetime import datetime, timedelta
+import numpy as np
 
 # ArcGIS Online Login
 gis = GIS(url='https://nrf-saeon.maps.arcgis.com/', username='Hayden_Wilson_SAEON', password='Croswetr#01')
@@ -37,6 +40,23 @@ def join_layer(related_table_df, feature_layer_df, left_join_id, right_join_id):
                        'Editor_x': 'Editor'}, inplace=True)
     return df
 
+#function to calculate the retrieval date for deployments
+def retrieval_update(input_df,date_column, days_until_retrieval):
+    df = input_df
+    df['retrieval_date'] = pd.to_datetime(df[date_column]) + timedelta(days=days_until_retrieval)
+    df['days_retrieval'] = (df['retrieval_date'] - datetime.now())
+    df['days_retrieval'] = df['days_retrieval']/np.timedelta64(1,'D')
+    df.loc[df['days_retrieval'] >= 28, 'Retrieval_Clas'] = 1 #Due in more than 4 weeks
+    df.loc[(df['days_retrieval'] < 21) | (df['days_retrieval'] >= 14), 'Retrieval_Clas'] = 3 #Due in 2 weeks
+    df.loc[(df['days_retrieval'] < 14) | (df['days_retrieval'] >= 7), 'Retrieval_Clas'] = 4 #Due in 1 weeks
+    df.loc[(df['days_retrieval'] < 7) | (df['days_retrieval'] >= 1), 'Retrieval_Clas'] = 5 #Due in 1 weeks
+    df.loc[(df['days_retrieval'] < 1) , 'Retrieval_Clas'] = 6 # Overdue
+    return df
+
+#function to overwrite the information in the feature layers that are used for dashboarding after new data is added from survey123 
+def overwrite_flc(featurelayer_id, csv_path):
+    featurelayerCollection = FeatureLayerCollection.fromitem(gis.content.get(featurelayer_id))
+    return featurelayerCollection.manager.overwrite(csv_path)
 
 item = gis.content.get('76a14d217a4c44e6a0423e134eba05ac')
 
@@ -108,8 +128,13 @@ utr_details = utr_recent[['utr_deployment',
                           ]]
 utr_details.rename(columns={'utr_deployment': 'utr_deployments', 'station': 'deployment_longname'}, inplace=True)
 utr_details = utr_details.drop_duplicates()
+utr_details = retrieval_update(utr_details,'Acoustic_activation_date',180)
 utr_details.to_csv('../csv_files/utr_details.csv', index=False)
 utr_details_csv_temp = '../csv_files/utr_details.csv'
+
+
+
+
 # update in ArcGIS Online
 utr_details_csv_AO = gis.content.search('de3d1768e77d4151aeeb07b44b1c5fe4', item_type="CSV")[0]
 utr_details_csv_AO.update(data=utr_details_csv_temp)
@@ -153,6 +178,7 @@ gtp_details.rename(
     columns={'gtp_deployment': 'gtp_deployments','gtp_latitude': 'latitude', 'gtp_longitude': 'longitude', 'gtp_deployment_date': 'deployment_date'},
     inplace=True)
 gtp_details = gtp_details.drop_duplicates()
+gtp_details = retrieval_update(gtp_details,'deployment_date',180)
 gtp_details.to_csv('../csv_files/gtp_details.csv', index=False)
 gtp_details_csv_temp = '../csv_files/gtp_details.csv'
 # update in ArcGIS Online
@@ -200,6 +226,7 @@ adcp_details.rename(columns={'adcp_deployment': 'adcp_deployments',
                              'adcp_deployment_date': 'deployment_date'}
                     , inplace=True)
 adcp_details = adcp_details.drop_duplicates()
+adcp_details = retrieval_update(adcp_details,'deployment_date',180)
 adcp_details.to_csv('../csv_files/adcp_details.csv', index=False)
 adcp_details_csv_temp = '../csv_files/adcp_details.csv'
 # update in ArcGIS Online
@@ -252,8 +279,20 @@ ct_details.rename(columns={'ct_deployment': 'ct_deployments',
                            'ct_deployment_date': 'deployment_date'
                            }, inplace=True)
 ct_details = ct_details.drop_duplicates()
+ct_details = retrieval_update(ct_details,'deployment_date',180)
 ct_details.to_csv('../csv_files/ct_details.csv', index=False)
 ct_details_csv_temp = '../csv_files/ct_details.csv'
 # update in ArcGIS Online
-ct_details_csv_AO = gis.content.search('4f9186be42504c9eac9484c95b01044f', item_type="CSV")[0]
+ct_details_csv_AO = gis.content.search('990dc76acca34334af8be10b9e014f66', item_type="CSV")[0]
 ct_details_csv_AO.update(data=ct_details_csv_temp)
+
+########## Update the feature Layer Collections for each of the deployment types #########
+adcp_fs = '3dce4400e0954b13b67967a5029d1435'
+gtp_fs = '5758be323daf4745947f99e92e9239ca'
+utr_fs = '043b6ceef102433fa2afecdbf4babda4'
+ct_fs = '92dd49537c39426f98432e2890382cb5'
+
+overwrite_flc(ct_fs,ct_details_csv_temp)
+overwrite_flc(gtp_fs,gtp_details_csv_temp)
+overwrite_flc(adcp_fs,adcp_details_csv_temp)
+overwrite_flc(utr_fs,utr_details_csv_temp)

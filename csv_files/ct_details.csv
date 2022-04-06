@@ -1,2 +1,4 @@
-ct_deployments,latitude,longitude,ct_serial,battery,deployment_date
-Gamtoos_upper,-33.922393,24.982207,1000010000,5,2022-04-06 10:00:00
+ct_deployments,latitude,longitude,ct_serial,battery,deployment_date,retrieval_date,days_retrieval,Retrieval_Clas
+Gamtoos_upper,-33.922393,24.982207,1000010000,5,2022-04-06 10:00:00,2022-10-03 10:00:00,179.55499311565973,5.0
+Kromme_lower,-34.127554,24.798138,2138712973,50,2022-04-08 10:00:00,2022-10-05 10:00:00,181.55499311565973,5.0
+testriver_tst,-33.45,26.98,218731298,50,2022-04-13 10:00:00,2022-10-10 10:00:00,186.55499311565973,5.0
