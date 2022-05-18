@@ -1,4 +1,0 @@
-adcp_deployments,adcp_longname,ADCP_type,latitude,longitude,beacon_IMEI,acoustic_release_code,acoustic_activation_date,deployment_date,retrieval_date,days_retrieval,Retrieval_Clas
-SCH,Schoenmakerskop,AWAC,-34.05399,25.561134,,,2021-08-09 10:00:00,2021-08-09 10:00:00,2022-02-05 10:00:00,-60.444825400358795,6.0
-CR,Cape Recife,workhorse,-34.00825,25.71972,,,2021-08-09 10:00:00,2021-08-09 10:00:00,2022-02-05 10:00:00,-60.444825400358795,6.0
-BI,Bird Island,ADCP-AR,-33.86388,26.30134,,547862.0,2021-10-13 10:00:00,2021-10-13 10:00:00,2022-04-11 10:00:00,4.555174599641203,5.0
