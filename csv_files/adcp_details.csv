@@ -1,0 +1,2 @@
+adcp_deployments,adcp_longname,ADCP_type,latitude,longitude,beacon_IMEI,acoustic_release_code,acoustic_activation_date,deployment_date,retrieval_date,days_retrieval,Retrieval_Clas
+SCHOE,Schoenmakerskop,workhorse,-34.05399,25.561134,,,,2021-09-08 10:00:00,2022-03-07 10:00:00,-72.06309478663195,6
