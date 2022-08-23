@@ -1,5 +1,25 @@
 name,label,utr_service_group
-BI_Out,Bird_Island_Outer,Bird Island Group
-Woody Cape,Woody_Cape,Bird Island Group
-BI 80m,Bird_Island_80,Bird Island Group
+WOODY,Woody Cape,Bird Island Group
+BIO,Bird Island Outer,Bird Island Group
+BI80,Bird Island 80m,Bird Island Group
+TS,test,test
+Schoenies80,Schoenmakerskop,Schoen_CR_StCx
+Schoen80m,Schoenmakerskop_80m,Schoen_CR_StCx
+CR30m,Cape_Recife_30m ,Schoen_CR_StCx
+StCx30m,St_Croix_30m,Schoen_CR_StCx
+BHB30m,Blue-Horizon-Bay,StFrancis
+ABM80m,Algoa_Bay_Mouth,AlgoaBay_Central
+uThukela UTR 30m,KZNBSS-uThukela-MPA-UTR-Inner,KZNBSS_uThukela
+uThukela UTR 60m,KZNBSS-uThukela-MPA-UTR-Middle,
+uThukela 80m,KZNBSS-uThukela-MPA-UTR-Outer,
 BII,Bird Island Inner,Bird Island Group
+Dunes,Alexandria Dune Fields,AlgoaBay_Central
+Sun,Sundays,AlgoaBay_Central
+ABC60m,Algoa Bay Central,AlgoaBay_Central
+STF60,St-Francis-West,StFrancis
+Thys,Thyspunt,StFrancis
+Gam,Gamtoos,StFrancis
+CSF,Cape St Francis,StFrancis
+Bluff30m,Bluff-Inner,Bluff
+Bluff60m,Bluff-Middle,
+Bluff80m,Bluff-Outer,

@@ -58,7 +58,7 @@ def overwrite_flc(featurelayer_id, csv_path):
     featurelayerCollection = FeatureLayerCollection.fromitem(gis.content.get(featurelayer_id))
     return featurelayerCollection.manager.overwrite(csv_path)
 
-item = gis.content.get('76a14d217a4c44e6a0423e134eba05ac')
+item = gis.content.get('a1b79cd54b93450fbcafe78f7755dca5')
 
 mooring = layer_to_df(item, 0)
 
